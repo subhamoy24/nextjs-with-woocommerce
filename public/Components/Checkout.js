@@ -1,8 +1,7 @@
 import React, {useState,useContext, useEffect} from"react";
 import styled from '@emotion/styled'
 import {AppContext} from './AppProvider'
-import axios from "axios";
-
+import { updateAddress, placeOrderApi } from '../../pages/api/RestAPI';
 const FormBody=styled.div`
 @media (min-width: 1000px) and (max-width: 1500px){
     padding: 130px 60px 60px;
@@ -558,19 +557,12 @@ const AddressPopup=({existing , setExisting , user_id})=>{
         if(IsValid() && user_id){    
             console.log(tempAdd)
 
-            var data = JSON.stringify({ id: user_id, address:{ "billing":{first_name:tempAdd.first_name,last_name:tempAdd.last_name,company:tempAdd.company
-            ,address_1:tempAdd.address_1,address_2:tempAdd.address_2, city:tempAdd.city,postcode:tempAdd.postcode,country:tempAdd.country,state:tempAdd.state,phone:tempAdd.phone} } });
-            var config = {
-                method: 'post',
-                url: 'http://localhost:3000/update-address',
-                headers: { 
-                    'Content-Type': 'application/json'
-                },
-                data : data
-            };
-            axios(config).then(function (response) {
-                if(response.data.id){
-                    console.log(response.data);
+            var data = { id: user_id, address:{ "billing":{first_name:tempAdd.first_name,last_name:tempAdd.last_name,company:tempAdd.company
+            ,address_1:tempAdd.address_1,address_2:tempAdd.address_2, city:tempAdd.city,postcode:tempAdd.postcode,country:tempAdd.country,state:tempAdd.state,phone:tempAdd.phone} } };
+            
+            updateAddress(data).then((response)=>{
+                if(response.id){
+                    console.log(response);
                     setExisting(tempAdd);
                 }
             }).catch(function (error) {
@@ -783,23 +775,15 @@ const Checkout=({info})=>{
                console.log(address.email);
                var data=JSON.stringify({"payment_method":"cod","payment_method_title":"Cash on delivery","set_paid":false,"customer_id":info.id,"billing":{"first_name":address.first_name,"last_name":address.last_name,"address_1":address.address_1,"address_2":address.address_2,"city":address.city,"state":address.state,"postcode":address.postcode,"country":address.country,"phone":address.phone},"line_items":arr,"total":info.total});
                 console.log(data);
-             var config = {
-                method: 'post',
-                url: 'http://localhost:3000/place-order',
-                headers: { 
-                    'Content-Type': 'application/json', 
-                },
-                data : data
-             };
-             axios(config).then(function (response) {
-                console.log(response.data);
-                if(response.data.id){
+                placeOrderApi(data).then(function (response) {
+                console.log(response);
+                if(response.id){
                     localStorage.removeItem('woo-next-cart');
                     setCart(null);
                 }
-            }).catch(function (error) {
+               }).catch(function (error) {
                 console.log(error);
-            });
+              });
             }
         }
     }

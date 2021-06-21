@@ -3,6 +3,7 @@ import axios from 'axios';
 import Layout from '../public/Components/Layout'
 import Profile from '../public/Components/Profile'
 import { ParseCookie } from "../public/Components/ParseCookie";
+import { getUser } from "./api/RestAPI";
 /*import '../styles/App.css'
 import '../styles/filter.css'
 import '../styles/mobilecart.css'
@@ -27,8 +28,7 @@ export async function getServerSideProps({req}){
     console.log(cookies.userId)
     console.log(cookies.token)
     if(cookies.userId && cookies.token){
-        const info1 = await fetch(`http://localhost:3000/get-user?id=${cookies.userId}`)
-        const info = await info1.json();
+        const info = await getUser(cookies.userId)
         return {props:{
             userId:cookies.userId,
             info:info

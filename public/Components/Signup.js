@@ -155,6 +155,7 @@ const SubmitButt=styled.button`
     width:100%;
 `
 import axios from 'axios'
+import { registerUser } from "../../pages/api/RestAPI";
 
 const Signup=()=>{
     const [firstname ,setFirstName] = useState("");
@@ -200,16 +201,9 @@ const Signup=()=>{
                     if(password){
                         if(password==retypepassword){
                             console.log("plo")
-                            var data = JSON.stringify({"first_name":firstname,"last_name":lastname,"email":email,"password":password});
-                            var config = {
-                                method: 'post',
-                                url: 'http://localhost:3000/register-user',
-                                headers: { 
-                                    'Content-Type': 'application/json',
-                                },
-                                data : data
-                            };
-                            axios(config).then(function (response) {
+                            var data = {"first_name":firstname,"last_name":lastname,"email":email,"password":password};
+                            
+                            registerUser(data).then(function (response) {
                                 console.log(response.data);
                                 Cookie.set("token",response.data.token);
                                 Cookie.set("userId",response.data.id);

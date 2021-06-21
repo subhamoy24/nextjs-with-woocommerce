@@ -1,6 +1,7 @@
 import React from "react";
 import App from '../../public/Components/App'
 import Layout from '../../public/Components/Layout'
+import { getCategories, getProducts } from "../api/RestAPI";
 function Shops({products,categories}){
     if(!products){
         return(<h1>vvhhhyhfy</h1>)
@@ -13,13 +14,12 @@ function Shops({products,categories}){
     }
 }
 export async function getStaticProps(){
-    const res=await fetch('http://localhost:3000/getProducts')
-    const products=await res.json()
-    const res1=await fetch('http://localhost:3000/getCategories')
-    const categories=await res1.json()
+    const products=await getProducts();
+    const categories=await getCategories();
     return {props:{
-        products,
-        categories
+            products,
+            categories
     }};
+    
 }
 export default Shops

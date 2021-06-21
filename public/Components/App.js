@@ -8,13 +8,13 @@ import MobileCart from './MobileCart'
 import styled from '@emotion/styled'
 import Skeleton from 'react-loading-skeleton'
 import parse from 'html-react-parser'
-import axios from 'axios'
 import { AppContext } from './AppProvider';
 import {addFirstItem,updateStorage,reduceStorage,decreaseStorage} from './Functions'
 import CartItem from './CartItem';
 import Link from 'next/link';
 import './Product'
 import { CardOuter, CardOuter1, CardOuter2, Description, ImageContainer , Image,Title,Measure, ProductMeta, PriceOuter,Price, ProductsOuter1,ProductsOuter2, LeftSidebarOuter1 } from './Product';
+import { getProducts } from '../../pages/api/RestAPI';
 const CategoryOuter=styled.div`
 margin-bottom: 15px;
 padding-left: 0px;
@@ -336,83 +336,59 @@ function App(props) {
     } 
   }
   function fetchProducts(o){
-
-    if(typeof cancelToken != typeof undefined){
-      cancelToken.cancel("Operation cancel  due to new request");
-    }
     console.log(o?o:"");
-    if(( o && o !="all") ||categoryId !="all"){
-      console.log("po");
-      let url=""
       if(o){
         if(o!="all"){
-           url=`http://localhost:3000/getProducts?page=${o?1:page}&category=${o?o:categoryId}`
+          const query={page:1, category:o}
+          getProducts(query).then(
+            (res)=>{
+              console.log(res);
+              setProducts(res);
+              setPage(2);
+              setLock(false);
+              fixedside();
+            }
+          )
         }else{
-          url=`http://localhost:3000/getProducts?page=${o?1:page}`
+          const query={page:1}
+           getProducts(query).then(
+              (res)=>{
+                console.log(res);
+                setProducts(res);
+                setPage(2);
+                setLock(false);
+                fixedside();
+              }
+          )
         }
       }else{
-        url=`http://localhost:3000/getProducts?page=${page}&category=${categoryId}`
-      }
-      setLock(true)
-      console.log(page)
-      console.log(url)
-      cancelToken=axios.CancelToken.source();
-      axios.get(url).then(
-        res=>{
-          console.log(res.data)
-          if(o){
-            console.log(res.data);
-            setProducts(res.data);
-            setPage(2);
-            setLock(false);
-            fixedside();
-          }else{
+        if(categoryId!="all"){
+          const query={page:page, category:categoryId}
+          getProducts(query).then(
+          (res)=>{
+            console.log(res)
             console.log(products)
-            setProducts([...products,...res.data])
+            setProducts([...products,...res])
             const k=page+1
             setPage(k);
             setLock(false);
             fixedside();
           }
+        )
+      }else{
+          const query={page:page}
+          getProducts(query).then(
+          (res)=>{
+            console.log(res)
+            setProducts([...products,...res])
+            const k=page+1
+            setPage(k);
+            setLock(false);
+            fixedside();
+          })
         }
-      ).catch(
-        err=>{
-          console.log(err)
-          setLock(false)
-        }
-      )
-      return
 
-    }else{
-    cancelToken=axios.CancelToken.source();
-    const url=`http://localhost:3000/getProducts?page=${o?1:page}`
-    setLock(true)
-    console.log(page)
-    console.log(url)
-    axios.get(url).then(
-        res=>{
-          if(o){
-            console.log(res.data)
-            setProducts(res.data)
-            setPage(2);
-            setLock(false);
-            fixedside();
-          }else{
-            console.log(res.data)
-            setProducts([...products,...res.data])
-            const k=page+1
-            setPage(k);
-            setLock(false);
-            fixedside(); 
-          }
-        }
-    ).catch(
-      err=>{
-      console.log(err)
-      setLock(false)
       }
-    )
-    }
   }
   
   return (

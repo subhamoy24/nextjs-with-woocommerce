@@ -2,6 +2,7 @@ import React,{useState,useEffect} from "react";
 import Checkout from '../../public/Components/Checkout'
 import Layout from "../../public/Components/Layout";
 import { ParseCookie } from "../../public/Components/ParseCookie";
+import { getUser } from "../api/RestAPI";
 export default function Checkouts({info}){
     
     return(
@@ -15,8 +16,7 @@ export async function getServerSideProps({req}){
     console.log(cookies.userId)
     console.log(cookies.token)
     if(cookies.userId && cookies.token){
-        const info1 = await fetch(`http://localhost:3000/get-user?id=${cookies.userId}`)
-        const info = await info1.json();
+        const info = await getUser(cookies.userId);
         return {props:{
             userId:cookies.userId,
             info:info
