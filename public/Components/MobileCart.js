@@ -15,9 +15,6 @@ const ModalOverlay=styled.div`
     background-color: rgba(0,0,0,.7);
     z-index: 9999;
     position: fixed;
-    @media(min-width:767px){
-        display:none;
-    }
 `
 const ReuseModal=styled.div`
     width: 100%;
