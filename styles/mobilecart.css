@@ -1,0 +1,21 @@
+.basket-enter{
+    transform: scale(0.5);
+    opacity: 0.2;
+ }
+ .basket-enter-active{
+    transform: scale(1);
+     opacity: 1;
+     transition: all  200ms linear;
+ 
+ }
+ .basket-exit{
+    transform: scale(0.5);
+    opacity: 0.5;
+    
+ 
+ }
+ .basket-exit-active{
+    transform: scale(0.2);
+    opacity: 0.01;
+    transition: all  200ms linear;
+ }
