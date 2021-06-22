@@ -1,8 +1,8 @@
 const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
 const axios = require('axios');
-const url="http://shop-here.atwebpages.com/";
-const ck='ck_7140ce73ca10a0920bb8fb16c08bfb0f8f26050e';
-const cs='cs_c1aa4a44831055ca1a2b17624415e7cb88b70183';
+const url="https://shop-now-24.000webhostapp.com";
+const ck='ck_bc034268bc694c7ab5bd13ecb196dfdd1269a95f';
+const cs='cs_1f1e9a64ecbe8445bf3fbc8846c8ce7ccecd2f35';
 const WooCommerce = new WooCommerceRestApi({
     url: url, // Your store URL
     consumerKey: ck,
