@@ -147,7 +147,7 @@ const LoginUser=()=>{
         e.preventDefault();
         if(username){
             if(password){
-                var data = new FormData();
+                /*var data = new FormData();
                 data.append('username', username);
                 data.append('password', password);
                 var config = {
@@ -162,7 +162,7 @@ const LoginUser=()=>{
                     Router.push('/user-dashboard')
                 }).catch(function (error) {
                     console.log(error);
-                });
+                });*/
             }
         }
     }
