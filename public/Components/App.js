@@ -208,10 +208,9 @@ function App(props) {
   }
   const ko =(index)=>{
     console.log("po")
+    console.log(index)
     var ip=products[index]
     setProd(ip);
-    $(".overlay").css('opacity', 1);
-    $(".overlay").css('visibility', 'inherit');
     setPopf(true)
   }
   const incre=(product)=>{
@@ -227,6 +226,13 @@ function App(props) {
       setCart(p);
     }
     fixedside()
+  }
+  const cancelItem=(product)=>{
+    console.log(product)
+    if(process.browser){
+      const p=reduceStorage(product)
+      setCart(p);
+    }
   }
   const addToCart=(product)=>{
     if(process.browser){
@@ -245,6 +251,7 @@ function App(props) {
     e.preventDefault();
      console.log("pp")
       var o=e.target.id;
+      console.log(o);
       setCategoryId(o);
       setProducts(null);
       setPage(1);
@@ -256,9 +263,9 @@ function App(props) {
   <i className="fa fa-cart"></i>
     <span>Cart</span></button>)
   }
-  const QuantButton=(store,product)=>{
+  const QuantButton=(store,product,f)=>{
      return(
-       <div className="quant">
+       <div className={f?"quant norquant":"quant quant1"}>
       <button class="decre" onClick={()=>{decre(product)}}>
       <svg xmlns="http://www.w3.org/2000/svg" width="12px" height="2px" viewBox="0 0 12 2">
         <rect data-name="Rectangle 522" width="12" height="2" rx="1" fill="currentColor"></rect>
@@ -279,8 +286,7 @@ function App(props) {
   }
   
   const lo=()=>{
-    $(".overlay").css('opacity', 0);
-    $(".overlay").css('visibility', 'hidden');
+   setPopf(false)
   }
   const disPlaybusket=()=>{
     $(".op").css('right',"-4px");
@@ -395,7 +401,6 @@ function App(props) {
   <>
     <div className="po">
     <div className="ko">
-    <button onClick={()=>{hu()}} style={{marginTop:"50px", marginLeft:"20px"}}>click</button>
     <div id="oli">
 
     </div>
@@ -423,10 +428,10 @@ function App(props) {
 
 
      </div>
-  <Filter is_true={flag} closeMenu={closeMenu} category={props.category} openSub={openSub}/>
+  <Filter is_true={flag} closeMenu={closeMenu} category={props.category} openSub={openSub} filterCat={filterCat}/>
      
 
-  <MobileCart show={show}  closehello={closehello} cart={cart} incre={incre} decre={decre} />
+  <MobileCart show={show}  closehello={closehello} cart={cart} incre={incre} decre={decre} cancelItem={cancelItem}/>
 
 <button class="product-cart" onClick={disPlaybusket}>
   <span class="cart-popup">
@@ -441,12 +446,10 @@ function App(props) {
 
 {popf?(<div id="popup1" class="overlay">
 	<div class="popup">
-    
-      <h2>{prod.name}</h2>
       <div className="container-fluid lp" >
        
           <div className="oi">
-          <img src={prod.images?prod.images[0].src:""} style={{width:"100%",height:"auto"}}>
+          <img src={prod.images?prod.images[0].src.replace("http://shop-here.atwebpages","https://shop-now-24.000webhostapp"):""} className='product-img'>
            </img>
           </div>
           <div className="oi jk">
@@ -468,25 +471,7 @@ function App(props) {
                 <div class="quick-viewstyle__ProductPrice-d67ysb-9 CIPBX">{prod.regular_price}</div>
                   <span class="quick-viewstyle__SalePrice-d67ysb-10 wgEPt">{prod.price}</span>
               </div>
-              <div class="quant_handler">
-                <div class="quant">
-                  <button class="incre">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12px" height="2px" viewBox="0 0 12 2">
-                      <rect data-name="Rectangle 522" width="12" height="2" rx="1" fill="currentColor"></rect>
-                      </svg>
-                  </button>
-                  <span class="counterstyle__CounterValue-sc-8iu0h2-2 fWCkFI">2</span>
-                  <button class="decre">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12px" height="12px" viewBox="0 0 12 12">
-                        <g id="Group_3351" data-name="Group 3351" transform="translate(-1367 -190)">
-                        <rect data-name="Rectangle 520" width="12" height="2" rx="1" transform="translate(1367 195)" fill="currentColor">
-                                    </rect>
-                                    <rect data-name="Rectangle 521" width="12" height="2" rx="1" transform="translate(1374 190) rotate(90)" fill="currentColor">
-                                      </rect>
-                        </g></svg>
-                  </button>
-                </div>
-              </div>
+              {cart?(cart.products[prod.id]?QuantButton(cart.products[prod.id],prod,1):kartButton(prod)):kartButton(prod)}
             </div>
           </div>
         </div>
@@ -497,7 +482,7 @@ function App(props) {
 
 
 
-<ShowBasket hello={hello}/>
+<ShowBasket hello={hello} cart={cart}/>
 <Main >
   
     <LeftSidebarOuter1>
@@ -552,8 +537,8 @@ function App(props) {
            <CardOuter  id={data.id} >
              <CardOuter1>
                <CardOuter2>
-           <ImageContainer>
-           <Image src={data.images?data.images[0].src:""} onClick={()=>{ko(index)}}/>
+           <ImageContainer  onClick={()=>{ko(index)}}>
+           <Image src={data.images?data.images[0].src.replace("http://shop-here.atwebpages","https://shop-now-24.000webhostapp"):""}/>
            </ImageContainer>
            <Description>
            <Title>{data.name}
@@ -620,7 +605,7 @@ function App(props) {
 
           {cart? Object.keys(cart.products).map((key,item)=> {
             return(
-              <CartItem product={cart.products[key]} incre={incre} decre={decre}/>
+              <CartItem product={cart.products[key]} incre={incre} decre={decre} cancelItem={cancelItem}/>
             )}):<EmptyCart/>}
             </div>
             </div>

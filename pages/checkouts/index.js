@@ -24,7 +24,7 @@ export async function getServerSideProps({req}){
 
     }
     return {props:{
-        userId:cookies.userId,
+        userId:"",
         info:{}
     }};
 }

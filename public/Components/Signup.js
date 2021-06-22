@@ -204,11 +204,13 @@ const Signup=()=>{
                             var data = {"first_name":firstname,"last_name":lastname,"email":email,"password":password};
                             
                             registerUser(data).then(function (response) {
-                                console.log(response.data);
-                                Cookie.set("token",response.data.token);
-                                Cookie.set("userId",response.data.id);
-                                Router.push('/user-dashboard')
-
+                                console.log(response);
+                                if(response){
+                                    Cookie.set("token",response.token);
+                                    Cookie.set("userId",response.user_id);
+                                    Router.push('/user-dashboard')
+    
+                                }
                             }).catch(function (error) {
                                 console.log(error);
                             });

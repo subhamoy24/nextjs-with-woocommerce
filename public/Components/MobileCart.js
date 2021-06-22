@@ -346,7 +346,7 @@ function MobileCart(props){
                                             <Content>
                                             {props.cart? Object.keys(props.cart.products).map((key,item)=> {
                                                 return(
-                                                <CartItem product={props.cart.products[key]} incre={props.incre} decre={props.decre}/>
+                                                <CartItem product={props.cart.products[key]} incre={props.incre} decre={props.decre} cancelItem={props.cancelItem}/>
                                                 )}):""}
                                             </Content>
                                         </ContentOut>

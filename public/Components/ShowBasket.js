@@ -58,6 +58,7 @@ function ShowBasket(props){
             <Span>
             </Span>
             <Tio>
+            ${props.cart?(props.cart.total.toFixed(2)):0.00}   
             </Tio>
         </Button>
     )

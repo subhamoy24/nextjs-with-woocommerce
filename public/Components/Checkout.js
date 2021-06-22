@@ -555,8 +555,7 @@ const AddressPopup=({existing , setExisting , user_id})=>{
     const saveAdd=(e)=>{
         e.preventDefault();
         if(IsValid() && user_id){    
-            console.log(tempAdd)
-
+            console.log(tempAdd);
             var data = { id: user_id, address:{ "billing":{first_name:tempAdd.first_name,last_name:tempAdd.last_name,company:tempAdd.company
             ,address_1:tempAdd.address_1,address_2:tempAdd.address_2, city:tempAdd.city,postcode:tempAdd.postcode,country:tempAdd.country,state:tempAdd.state,phone:tempAdd.phone} } };
             

@@ -1,6 +1,6 @@
 const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
 const axios = require('axios');
-const url='http://shop-here.atwebpages.com';
+const url="http://shop-here.atwebpages.com/";
 const ck='ck_7140ce73ca10a0920bb8fb16c08bfb0f8f26050e';
 const cs='cs_c1aa4a44831055ca1a2b17624415e7cb88b70183';
 const WooCommerce = new WooCommerceRestApi({
@@ -95,9 +95,9 @@ export  async function getCategories(){
 export async function registerUser(req) {
     console.log(req)
     return await WooCommerce.post("customers",req).then(
-        async (response)=>{
+         (response)=>{
             console.log(response.data);
-            if(response.data.id){
+            /*if(response.data.id){
              return  await axios.post(`${url}/wp-json/jwt-auth/v1/token`,{
                   username: req.body.email,
                   password: req.body.password
@@ -112,6 +112,17 @@ export async function registerUser(req) {
               )
             }else{
                 return response.data
+            }*/
+           if(response.data && response.data.id){
+                return  {
+                    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc2hvcC1ub3ctMjQuMDAwd2ViaG9zdGFwcC5jb20iLCJpYXQiOjE2MjQzNjE0ODMsIm5iZiI6MTYyNDM2MTQ4MywiZXhwIjoxNjI0OTY2MjgzLCJkYXRhIjp7InVzZXIiOnsiaWQiOiIyIn19fQ.8fNe1NmsWpelRdAcRaREMqMfRkgMAh--bidLFDJPUEI",
+                    user_email:response.data.email,
+                    user_nicename: response.data.username,
+                    user_display_name: response.data.first_name+" "+response.data.last_name ,
+                    user_id: response.data.id
+                }
+            }else{
+                return  null
             }
         }
     ).catch(
@@ -121,7 +132,7 @@ export async function registerUser(req) {
             console.log("lop")
             console.log(err.response)
 
-            return {}
+            return null
         }
     )
 }

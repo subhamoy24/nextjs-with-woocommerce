@@ -13,7 +13,7 @@ const createProduct=(product)=>{
   return {
       id:product.id,
       title: product.name,
-      image: product.images[0].src,
+      image: product.images[0].src.replace("http://shop-here.atwebpages","https://shop-now-24.000webhostapp"),
       quant: 1,
       price: product.price
   }

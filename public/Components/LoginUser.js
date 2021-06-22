@@ -152,7 +152,7 @@ const LoginUser=()=>{
                 data.append('password', password);
                 var config = {
                     method: 'post',
-                    url: 'http://shop-here.atwebpages.com/wp-json/jwt-auth/v1/token',
+                    url: 'https://shop-now-24.000webhostapp.com/wp-json/jwt-auth/v1/token',
                     data : data
                 };
                 axios(config).then(function (response) {
