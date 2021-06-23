@@ -1,8 +1,8 @@
 const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
 const axios = require('axios');
-const url="https://shop-now-24.000webhostapp.com";
-const ck='ck_bc034268bc694c7ab5bd13ecb196dfdd1269a95f';
-const cs='cs_1f1e9a64ecbe8445bf3fbc8846c8ce7ccecd2f35';
+const url='https://wordpress-617744-2004760.cloudwaysapps.com';
+const ck='ck_f5dd227798c47e6ae86d0e996ee5d462b913c245';
+const cs='cs_e17b27de5e6902a13809849631c946375205fac6';
 const WooCommerce = new WooCommerceRestApi({
     url: url, // Your store URL
     consumerKey: ck,
@@ -17,7 +17,7 @@ export const  getProducts= async (query)=>{
     }
     cancelToken=axios.CancelToken.source();*/
     if(query){
-         return await WooCommerce.get(`products`,query).then((response) => {
+         return await WooCommerce.get(`products?${query.category?`category=${query.category}`:""}${query.page?`page=${query.page}`:""}`).then((response) => {
          //console.log(response.data);
           var kj=response.data.map((data)=>{
           data['price']=parseFloat(data['price'])

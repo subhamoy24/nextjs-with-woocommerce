@@ -538,7 +538,7 @@ function App(props) {
              <CardOuter1>
                <CardOuter2>
            <ImageContainer  onClick={()=>{ko(index)}}>
-           <Image src={data.images?data.images[0].src.replace("http://shop-here.atwebpages","https://shop-now-24.000webhostapp"):""}/>
+           <Image src={data.images?data.images[0].src:""}/>
            </ImageContainer>
            <Description>
            <Title>{data.name}
