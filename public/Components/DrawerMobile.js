@@ -185,7 +185,7 @@ const DrawBox=({setOpenDrawer})=>{
                                                 </Link>
                                             </div>
                                             <div>
-                                            <div onClick={logoutUser}>
+                                            <div onClick={()=>{logoutUser(setLogged)}}>
                                             <ListItem>
                                                 logout
                                             </ListItem>

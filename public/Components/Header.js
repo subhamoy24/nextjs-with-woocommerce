@@ -242,9 +242,10 @@ const OuterIcon1=styled.div`
   }
 
 `
-export const logoutUser=()=>{
+export const logoutUser=(setLogged)=>{
   Cookie.remove('userId');
   Cookie.remove('token');
+  setLogged(false)
   Router.push('/shops');
 }
 const IconBars=()=>{
@@ -310,7 +311,7 @@ const LeftHead=({setOpenDrawer})=>{
     </LeftHeadWrap>
   )
 }
-const RightHead=({logged})=>{
+const RightHead=({logged, setLogged})=>{
   return(
   <RightHeadWraper>
     <div>
@@ -331,7 +332,7 @@ const RightHead=({logged})=>{
     </Login>
     </Link>
     </>:""}
-    {logged?(<Login onClick={logoutUser}>
+    {logged?(<Login onClick={()=>{logoutUser(setLogged)}}>
       logout
     </Login>):""}
   </RightHeadWraper>)
@@ -353,7 +354,7 @@ function Header(){
           <Head>
             <LeftHead  setOpenDrawer={setOpenDrawer}/>
             <Search/>
-            <RightHead logged={logged}/>
+            <RightHead logged={logged} setLogged={setLogged}/>
           </Head>
         </HeadOut>
       </>
