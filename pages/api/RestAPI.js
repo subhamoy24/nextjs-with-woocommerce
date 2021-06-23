@@ -17,7 +17,7 @@ export const  getProducts= async (query)=>{
     }
     cancelToken=axios.CancelToken.source();*/
     if(query){
-         return await WooCommerce.get(`products?${query.category?`category=${query.category}`:""}${query.page?`page=${query.page}`:""}`).then((response) => {
+         return await WooCommerce.get('products',query).then((response) => {
          //console.log(response.data);
           var kj=response.data.map((data)=>{
           data['price']=parseFloat(data['price'])
