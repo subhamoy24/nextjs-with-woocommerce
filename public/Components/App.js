@@ -15,6 +15,7 @@ import Link from 'next/link';
 import './Product'
 import { CardOuter, CardOuter1, CardOuter2, Description, ImageContainer , Image,Title,Measure, ProductMeta, PriceOuter,Price, ProductsOuter1,ProductsOuter2, LeftSidebarOuter1 } from './Product';
 import { getProducts } from '../../pages/api/RestAPI';
+import DrawBox from './DrawerMobile';
 const CategoryOuter=styled.div`
 margin-bottom: 15px;
 padding-left: 0px;
@@ -401,9 +402,6 @@ function App(props) {
   <>
     <div className="po">
     <div className="ko">
-    <div id="oli">
-
-    </div>
 
     
     </div>
@@ -414,10 +412,7 @@ function App(props) {
 
        </div>
        <div style={{display:"flex",justifyContent:"space-between" ,padding:"0px 20px 15px",marginTop:"20px"}}>
-         <div>
-           biscuit
-         </div>
-         <div style={{cursor:"pointer"}} onClick={()=>{showMenu()}}>
+         <div id="filterMobi" style={{cursor:"pointer"}} onClick={()=>{showMenu()}}>
            filter
          </div>
         

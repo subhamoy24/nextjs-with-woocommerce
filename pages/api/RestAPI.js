@@ -95,12 +95,12 @@ export  async function getCategories(){
 export async function registerUser(req) {
     console.log(req)
     return await WooCommerce.post("customers",req).then(
-         (response)=>{
+         async (response)=>{
             console.log(response.data);
-            /*if(response.data.id){
+            if(response.data.id){
              return  await axios.post(`${url}/wp-json/jwt-auth/v1/token`,{
-                  username: req.body.email,
-                  password: req.body.password
+                  username: req.email,
+                  password: req.password
               }).then((response)=>{
                   console.log(response);
                   return response.data;
@@ -112,24 +112,11 @@ export async function registerUser(req) {
               )
             }else{
                 return response.data
-            }*/
-           if(response.data && response.data.id){
-                return  {
-                    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc2hvcC1ub3ctMjQuMDAwd2ViaG9zdGFwcC5jb20iLCJpYXQiOjE2MjQzNjE0ODMsIm5iZiI6MTYyNDM2MTQ4MywiZXhwIjoxNjI0OTY2MjgzLCJkYXRhIjp7InVzZXIiOnsiaWQiOiIyIn19fQ.8fNe1NmsWpelRdAcRaREMqMfRkgMAh--bidLFDJPUEI",
-                    user_email:response.data.email,
-                    user_nicename: response.data.username,
-                    user_display_name: response.data.first_name+" "+response.data.last_name ,
-                    user_id: response.data.id
-                }
-            }else{
-                return  null
             }
         }
     ).catch(
         (err)=>{
-            console.log("pop")
             console.log(err)
-            console.log("lop")
             console.log(err.response)
 
             return null

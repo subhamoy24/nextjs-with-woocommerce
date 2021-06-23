@@ -147,22 +147,24 @@ const LoginUser=()=>{
         e.preventDefault();
         if(username){
             if(password){
-                /*var data = new FormData();
+                var data = new FormData();
                 data.append('username', username);
                 data.append('password', password);
                 var config = {
                     method: 'post',
-                    url: 'https://shop-now-24.000webhostapp.com/wp-json/jwt-auth/v1/token',
+                    url: 'https://wordpress-617744-2004760.cloudwaysapps.com/wp-json/jwt-auth/v1/token',
                     data : data
                 };
                 axios(config).then(function (response) {
-                    console.log(response.data);
-                    Cookie.set("token",response.data.token);
-                    Cookie.set("userId",response.data.user_id);
-                    Router.push('/user-dashboard')
+                    if(response.data && response.data.token){
+                        console.log(response.data);
+                        Cookie.set("token",response.data.token);
+                        Cookie.set("userId",response.data.user_id);
+                        Router.push('/user-dashboard')
+                    }
                 }).catch(function (error) {
                     console.log(error);
-                });*/
+                });
             }
         }
     }

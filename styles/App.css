@@ -211,6 +211,17 @@
   .product-cart{
     display: none;
   }
+
+}
+@media (min-width: 999px){
+  #filterMobi{
+    display: none;
+  }
+}
+@media (max-width: 999px){
+  #filterMobi{
+    display: block;
+  }
 }
 
 .cart-popup{

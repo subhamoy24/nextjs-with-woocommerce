@@ -745,10 +745,60 @@ border: 0px;
 height: 48px;
 width:100%;
 `
+const PlaceOrder2=styled.button`
+padding: 0px 30px;
+font-size: 15px;
+font-weight: 700;
+cursor: pointer;
+color: rgb(255, 255, 255);
+background-color: rgb(0, 158, 127);
+transition: all 0.3s ease 0s;
+border-radius: 6px;
+appearance: none;
+display: flex;
+-webkit-box-align: center;
+align-items: center;
+-webkit-box-pack: center;
+justify-content: center;
+flex-shrink: 0;
+text-align: center;
+text-decoration: none;
+font-family: inherit;
+border: 0px;
+height: 48px;
+width:100%;
+margin-bottom:20px;
+`
+const PlaceOrder3=styled.button`
+padding: 0px 30px;
+font-size: 15px;
+font-weight: 700;
+cursor: pointer;
+color: rgb(255, 255, 255);
+background-color: red;
+transition: all 0.3s ease 0s;
+border-radius: 6px;
+appearance: none;
+display: flex;
+-webkit-box-align: center;
+align-items: center;
+-webkit-box-pack: center;
+justify-content: center;
+flex-shrink: 0;
+text-align: center;
+text-decoration: none;
+font-family: inherit;
+border: 0px;
+height: 48px;
+width:100%;
+margin-bottom:20px;
+`
 const Checkout=({info})=>{
   
     const [cart, setCart] = useContext(AppContext);
     const [close, setClose]= useState(true);
+    const [success, setSuccess] = useState(false);
+    const [fail , setFail] = useState(false)
     const [address, setAddress ]= useState(info?info.billing:{});
     console.log(info);
     const handleClose=()=>{
@@ -772,15 +822,20 @@ const Checkout=({info})=>{
                    arr.push(d);
                })
                console.log(address.email);
-               var data=JSON.stringify({"payment_method":"cod","payment_method_title":"Cash on delivery","set_paid":false,"customer_id":info.id,"billing":{"first_name":address.first_name,"last_name":address.last_name,"address_1":address.address_1,"address_2":address.address_2,"city":address.city,"state":address.state,"postcode":address.postcode,"country":address.country,"phone":address.phone},"line_items":arr,"total":info.total});
+               var data={"payment_method":"cod","payment_method_title":"Cash on delivery","set_paid":false,"customer_id":info.id,"billing":{"first_name":address.first_name,"last_name":address.last_name,"address_1":address.address_1,"address_2":address.address_2,"city":address.city,"state":address.state,"postcode":address.postcode,"country":address.country,"phone":address.phone},"line_items":arr,"total":info.total};
                 console.log(data);
                 placeOrderApi(data).then(function (response) {
                 console.log(response);
                 if(response.id){
+                    setSuccess(true);
+                    setFail(false);
                     localStorage.removeItem('woo-next-cart');
                     setCart(null);
+                }else{
+                    setFail(true);
                 }
                }).catch(function (error) {
+                setFail(true);
                 console.log(error);
               });
             }
@@ -800,11 +855,13 @@ const Checkout=({info})=>{
             <FormBody>
                 <FormBody1>
                     <Details>
+                    {success?<PlaceOrder2> order received successfully, Thank you for shop with us</PlaceOrder2>:""}
+                    {fail?<PlaceOrder3> there is some issue try again letter</PlaceOrder3>:""}
                      <Address handleOpen={handleOpen} address={address?address:{} } user_id={info?info.id:""}/>
-                     <PlaceOrder onClick={placeOrder}> place order </PlaceOrder>
+                    {cart?<PlaceOrder onClick={placeOrder}> place order </PlaceOrder>:""}
                     </Details>
                     <Cart cart={cart}/>
-                    <PlaceOrder1 onClick={placeOrder}> place order </PlaceOrder1>
+                    {cart?<PlaceOrder1 onClick={placeOrder}> place order </PlaceOrder1>:""}
                 </FormBody1>
             </FormBody>
         </form>
